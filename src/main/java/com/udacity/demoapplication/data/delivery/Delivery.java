@@ -1,5 +1,6 @@
 package com.udacity.demoapplication.data.delivery;
 
+import com.udacity.demoapplication.data.inventory.Plant;
 import org.hibernate.annotations.Nationalized;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.Id;
@@ -7,8 +8,10 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Delivery {
@@ -24,6 +27,9 @@ public class Delivery {
     private LocalDateTime deliveryTime;
     @Type(type = "yes_no")
     private Boolean completed;
+
+    @OneToMany(mappedBy = "delivery")
+    List<Plant> plants;
 
     public LocalDateTime getDeliveryTime() {
         return deliveryTime;
