@@ -1,5 +1,7 @@
 package com.udacity.demoapplication.data.inventory;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.udacity.demoapplication.controller.Views;
 import com.udacity.demoapplication.data.delivery.Delivery;
 import org.hibernate.annotations.Nationalized;
 import org.springframework.data.annotation.Id;
@@ -15,9 +17,11 @@ public class Plant {
     @GeneratedValue
     private Long id;
 
+    @JsonView(Views.Public.class)
     @Nationalized
     private String name;
     @Column(precision = 12, scale = 4)
+    @JsonView(Views.Public.class)
     private BigDecimal price;
 
     @ManyToOne
