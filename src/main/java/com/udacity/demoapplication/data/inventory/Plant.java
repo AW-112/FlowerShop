@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.udacity.demoapplication.controller.Views;
 import com.udacity.demoapplication.data.delivery.Delivery;
 import org.hibernate.annotations.Nationalized;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,13 +22,24 @@ public class Plant {
     @Column(precision = 12, scale = 4)
     @JsonView(Views.Public.class)
     private BigDecimal price;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
