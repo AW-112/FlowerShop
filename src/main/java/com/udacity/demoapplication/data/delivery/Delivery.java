@@ -10,23 +10,28 @@ import java.util.List;
 
 @Entity
 @NamedQuery(
-    name = "Delivery.findByName",
-    query = "select d from Delivery d where d.name = :name"
+        name = "Delivery.findByName",
+        query = "select d from Delivery d where d.name = :name"
 )
 public class Delivery {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "delivery", cascade = CascadeType.ALL)
+    List<Plant> plants;
     @Id
     @GeneratedValue
     private Long id;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "delivery", cascade = CascadeType.ALL)
-    List<Plant> plants;
     @Nationalized
     private String name;
     @Column(name = "address_full", length = 500)
     private String address;
     private LocalDateTime deliveryTime;
     @Type(type = "yes_no")
-    private Boolean completed;
+    private Boolean completed = false;
+    
+    public Delivery(String name, String address, LocalDateTime deliveryTime) {
+        this.name = name;
+        this.address = address;
+        this.deliveryTime = deliveryTime;
+    }
 
     public List<Plant> getPlants() {
         return plants;

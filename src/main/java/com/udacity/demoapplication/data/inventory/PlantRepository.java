@@ -11,11 +11,18 @@ import java.util.List;
 
 @Repository
 public interface PlantRepository extends JpaRepository<Plant, Long> {
+
+    //check if a plant by this id exists where delivery has been completed
     Boolean existsPlantByIdAndDeliveryCompleted(Long id, Boolean delivered);
 
+    //you can return a primitive directly
     @Query("select p.delivery.completed from Plant p where p.id = :plantId")
-    public Boolean isPlantDelivered(Long plantId);
+    Boolean deliveryCompleted(Long plantId);
 
-    //@Query("select * from plant p where p.price < :price")
-    public List<Plant> findByPriceLessThan(@Param("price") BigDecimal price);
+    //to return a wrapper class, you may need to construct it as a projection
+    @Query("select new java.lang.Boolean(p.delivery.completed) from Plant p where p.id = :plantId")
+    Boolean deliveryCompletedBoolean(Long plantId);
+
+    //we can do this entirely with the method name
+    List<Plant> findByPriceLessThan(BigDecimal price);
 }
